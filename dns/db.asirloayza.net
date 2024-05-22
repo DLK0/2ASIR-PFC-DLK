@@ -1,0 +1,15 @@
+; zone file asirloayza.net
+$TTL    604800
+@          IN   SOA    www.asirloayza.net. admin.asirloayza.net.(
+           2024052101    ; serial number
+           3600  ; refresh
+           600   ; retry
+           86400 ; expire
+           3600  ) ; minimum TTL
+; Zone NS records
+@              IN    NS    asirloayza.net.
+; Zone A records
+dns        IN    A    192.168.1.2
+dhcp       IN    A    192.168.1.3
+apache     IN    A    192.168.1.4
+mysql      IN    A    192.168.1.5
