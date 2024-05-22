@@ -6,9 +6,8 @@ services:
     container_name: dns
     hostname: dns
     volumes:
-      - dns-data:/etc/bind
-      - ./dns/named.conf.local:/etc/bind/named.conf.local
-      - ./dns/db.asirloayza.net:/etc/bind/
+      #- ./dns/named.conf.local:/data/named.conf.local
+      - ./dns/db.asirloayza.net:/etc/bind/db.asirloayza.net
     networks:
       pfcNetwork:
         ipv4_address: 192.168.1.2
@@ -17,19 +16,18 @@ services:
       - "53:53/tcp"
 
   dhcp:
-    image: networkboot/dhcpd
+    image: joebiellik/dhcpd
     container_name: dhcp
     hostname: dhcp
     volumes:
-      - dhcp-data:/data
-      - ./dhcp/dhcpd.conf:/etc/dhcp/
+      - ./dhcp/dhcpd.conf:/etc/dhcp/dhcpd.conf
     networks:
       pfcNetwork:
         ipv4_address: 192.168.1.3
     ports:
       - "67:67/udp"
-    #command: eth0
-    #environment:
+    environment:
+      - INTERFACES=eth0
     #  - RANGE=192.168.1.100,192.168.1.254
     #  - DNS=192.168.1.2
     #  - SUBNET=255.255.255.0
@@ -40,18 +38,18 @@ services:
     container_name: apache
     hostname: apache
     volumes:
-      - ./web:/var/www/html
+      - ./web/apache/asirloayza.net.conf:/etc/apache2/sites-available/asirloayza.net.conf
+      - ./web/www:/var/www/html
     networks:
       pfcNetwork:
         ipv4_address: 192.168.1.4
     ports:
       - "80:80"
-    depends_on:
-      - mysql
-      - dns
+      - "443:443"
     environment:
       APACHE_RUN_USER: www-data
       APACHE_RUN_GROUP: www-data
+    #command: bash -c "a2ensite asirloayza.net.conf && a2dissite 000-default.conf && service apache2 reload"
   
   mysql:
     image: mysql:latest
@@ -79,6 +77,4 @@ networks:
         - subnet: 192.168.1.0/24
 
 volumes:
-  dns-data:
-  dhcp-data:
   mysql-data:

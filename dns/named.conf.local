@@ -1,4 +1,4 @@
-zone "asirloayza.net" {
+zone "asirloayza.net"{
     type master;
     file "/etc/bind/db.asirloayza.net";
-}
+};
