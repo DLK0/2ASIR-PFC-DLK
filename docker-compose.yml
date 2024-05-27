@@ -2,11 +2,13 @@ version: '3.8'
 
 services:
   dns:
-    image: internetsystemsconsortium/bind9:9.19
+    build:
+      context: .
+      dockerfile: Dockerfile_dns
     container_name: dns
     hostname: dns
     volumes:
-      #- ./dns/named.conf.local:/data/named.conf.local
+      - dns-data:/etc/bind
       - ./dns/db.asirloayza.net:/etc/bind/db.asirloayza.net
     networks:
       pfcNetwork:
@@ -34,7 +36,9 @@ services:
     #  - ROUTER=192.168.1.1
 
   apache:
-    image: php:apache
+    build:
+      context: .
+      dockerfile: Dockerfile_apache
     container_name: apache
     hostname: apache
     volumes:
@@ -77,4 +81,5 @@ networks:
         - subnet: 192.168.1.0/24
 
 volumes:
+  dns-data:
   mysql-data:

@@ -1,0 +1,12 @@
+# Utiliza la imagen base de BIND 9.19
+FROM internetsystemsconsortium/bind9:9.19
+
+# Copia los archivos de configuración personalizados
+COPY ./dns /etc/bind
+
+# Exponer el puerto DNS (53)
+EXPOSE 53/udp
+EXPOSE 53/tcp
+
+# Iniciar el servidor DNS BIND en primer plano al iniciar el contenedor
+CMD ["/usr/sbin/named", "-f", "-c", "/etc/bind/named.conf", "-u", "bind"]
