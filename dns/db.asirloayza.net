@@ -8,10 +8,10 @@ $TTL    604800
             604800 )    ; negative cache TTL
 ; Servidores DNS del dominio
 @              IN    NS    dns.asirloayza.net.
-dns            IN    A     192.168.1.2
+dns            IN    A     192.168.8.2
 
 ; Hosts
-dhcp       IN    A    192.168.1.3
-apache     IN    A    192.168.1.4
-mysql      IN    A    192.168.1.5
-@          IN    A    192.168.1.4
+dhcp       IN    A    192.168.8.3
+apache     IN    A    192.168.8.4
+mysql      IN    A    192.168.8.5
+@          IN    A    192.168.8.4
