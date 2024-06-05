@@ -9,7 +9,6 @@ services:
     hostname: dns
     volumes:
       - dns-data:/etc/bind
-      - ./dns/db.asirloayza.net:/etc/bind/db.asirloayza.net
     networks:
       pfcNetwork:
         ipv4_address: 192.168.8.2
@@ -31,10 +30,6 @@ services:
       - "67:67/udp"
     environment:
       - INTERFACES=eth0
-    #  - RANGE=192.168.1.100,192.168.1.254
-    #  - DNS=192.168.1.2
-    #  - SUBNET=255.255.255.0
-    #  - ROUTER=192.168.1.1
     dns:
       - 192.168.8.2
     restart: unless-stopped
@@ -84,9 +79,7 @@ services:
   
 networks:
   pfcNetwork:
-    driver: macvlan
-    driver_opts:
-      parent: eth0
+    driver: bridge
     ipam:
       config:
         - subnet: 192.168.8.0/24
